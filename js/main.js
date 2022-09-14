@@ -1,3 +1,5 @@
+
+// RODRI, la lógica es la misma de la entrega anterior; no llegué a aplicar tus correcciones
 class Personal {
     constructor(nombre, sector) {
         this.nombre = nombre.toUpperCase();
@@ -84,4 +86,23 @@ do {
     entradaPersonal();
 } while (continuar());
 
-buscarPersonal();
+
+// INTERECCIÓN CON HTML
+let mostrarHTML = document.createElement("div");
+document.body.append(mostrarHTML);
+
+for (const persona of personal) {
+    let tituloNombre = document.createElement("h2");
+    let tituloSector = document.createElement("h2");
+
+    tituloNombre.innerHTML = `Nombre: ${persona.nombre}`;
+    tituloSector.innerHTML = `Sector: ${persona.sector}`;
+
+    mostrarHTML.appendChild(tituloNombre);
+    mostrarHTML.appendChild(tituloSector);
+
+}
+/*
+*/
+
+// buscarPersonal();
