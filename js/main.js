@@ -40,8 +40,8 @@ const crearCheckItem = (texto) => {
     let checkItem = document.createElement("article");
     checkItem.classList.add("form-check");
     checkItem.innerHTML = `
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault" id="">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault${idLista1}">
+                <label class="form-check-label" for="flexCheckDefault${idLista1}">
                     ${texto}
                 </label>`;
     seccionTareas.appendChild(checkItem);
