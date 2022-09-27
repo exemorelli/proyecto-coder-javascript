@@ -2,28 +2,33 @@ class Tarea {
     constructor(texto, id) {
         this.texto = texto;
         this.id = id;
-        this.checked = false;
     }
 }
 
-let mainContainer = document.querySelector("#mainContainer");
-let seccionTareas = document.querySelector("#listaTareas")
+// let mainContainer = document.querySelector("#mainContainer");
+let seccionTareas = document.querySelector("#listaTareas");
 
-
-const lista1 = [];
-let idLista1 = 1;
 
 const operarTextArea = () => {
+
     let boton = document.querySelector("#btnAddToDo");
     // let botonGetId = document.getElementById("btnAddToDo");
     boton.onclick = () => {
+        const cards = [];
         let tarea = document.querySelector("#inputTarea");
-        lista1.push(new Tarea(tarea.value, idLista1)); // CREO UN NUEVO OBJETO EN EL ARRAY LISTA 1
-        idLista1++; // AUMENTO EN 1 EL ID
-        crearCheckItem(tarea.value);
-        tarea.value = ""; // BORRO EL TEXT AREA
-        // console.log(lista1);
-        // crearCheckItem(lista1[length-1].texto);
+        if (tarea.value != "") {
+            if (localStorage.getItem('cards') === null) {
+                cards.push(new Tarea(tarea.value, 1)); // CREO UN NUEVO OBJETO EN EL ARRAY LISTA 1
+                localStorage.setItem('cards', JSON.stringify(cards));// GUARDO EL ARRAY EN LOCALSTORAGE
+            } else {
+                let cards = JSON.parse(localStorage.getItem('cards'))
+                let i = cards.length + 1;
+                cards.push(new Tarea(tarea.value, i));
+                localStorage.setItem('cards', JSON.stringify(cards));
+            }
+            crearCard();
+            tarea.value = "";
+        }
     }
 }
 
@@ -36,21 +41,47 @@ const cancelarInput = () => {
     }
 }
 
-const crearCheckItem = (texto) => {
-    let checkItem = document.createElement("article");
-    checkItem.classList.add("form-check");
-    checkItem.innerHTML = `
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault${idLista1}">
-                <label class="form-check-label" for="flexCheckDefault${idLista1}">
-                    ${texto}
-                </label>`;
-    seccionTareas.appendChild(checkItem);
+const crearCard = () => {
+    let dibujar = JSON.parse(localStorage.getItem('cards'));
+    if (dibujar !== null) {
+        let article = document.createElement("article");
+        article.classList.add("container");
+        seccionTareas.innerHTML = "";
+        dibujar.forEach((element, i )=> {
+            article.innerHTML += `
+            <div class="card col-3 m-3">
+                <div class="card-body m-1">
+                    <p>${element.texto}</p>
+                    <button type="button" onclick="borrarCard(${i})" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        `;
+
+            seccionTareas.appendChild(article);
+        });
+    }
+    /* for (const card of cards) {
+        // checkItem.classList.add("form-check");
+        article.innerHTML = `
+        <label>${card.texto}</label>
+    `;
+        seccionTareas.appendChild(article);
+    } */
 }
 
+const borrarCard = (i) => {
+    // console.log(i)
+    let card = JSON.parse(localStorage.getItem('cards'));
+    card.splice(i, 1);
+    localStorage.setItem('cards', JSON.stringify(card));
+    crearCard();
+}
+
+
 const agregarTarea = () => {
+    crearCard();
     operarTextArea();
     cancelarInput();
-    // crearCheckItem(lista1[length-1].texto);
 }
 
 agregarTarea();
