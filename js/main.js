@@ -47,12 +47,12 @@ const crearCard = () => {
         let article = document.createElement("article");
         article.classList.add("container");
         seccionTareas.innerHTML = "";
-        dibujar.forEach((element, i )=> {
+        dibujar.forEach((element, i) => {
             article.innerHTML += `
             <div class="card col-3 m-3">
                 <div class="card-body m-1">
                     <p>${element.texto}</p>
-                    <button type="button" onclick="borrarCard(${i})" class="btn btn-danger">Eliminar</button>
+                    <button type="button" onclick="alertaBorrar(${i})" class="btn btn-danger">Eliminar</button>
                 </div>
             </div>
         `;
@@ -67,6 +67,27 @@ const crearCard = () => {
     `;
         seccionTareas.appendChild(article);
     } */
+}
+
+const alertaBorrar = (i) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+            borrarCard(i);
+        }
+    })
 }
 
 const borrarCard = (i) => {
