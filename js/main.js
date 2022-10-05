@@ -52,6 +52,7 @@ const crearCard = () => {
             <div class="card col-3 m-3">
                 <div class="card-body m-1">
                     <p>${element.texto}</p>
+                    <button type="button" onclick="cardCompletada(${i})" class="btn btn-success">Completado</button>
                     <button type="button" onclick="alertaBorrar(${i})" class="btn btn-danger">Eliminar</button>
                 </div>
             </div>
@@ -67,6 +68,17 @@ const crearCard = () => {
     `;
         seccionTareas.appendChild(article);
     } */
+}
+
+const cardCompletada = (i) => {
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'La tarjeta ha sido archivada',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      borrarCard(i);
 }
 
 const alertaBorrar = (i) => {
