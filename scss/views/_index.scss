@@ -1,0 +1,29 @@
+.kanban {
+    display: flex;
+}
+
+.kanban__lista {
+    width: 400px;
+    padding: 20px;
+}
+
+.kanban__lista__container__card {
+    background-color: lightgrey;
+    padding: 10px;
+    margin: 5px 0px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.kanban__lista__container__card p {
+    height: auto;
+}
+
+.kanban__lista__btn {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.seleccionado {
+    transform: scale(1.02) rotate(1deg);
+}

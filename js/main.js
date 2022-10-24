@@ -111,66 +111,24 @@ const agregarTarea = () => {
   cancelarInput();
 };
 
-// document.onDOMContentLoaded = (e) => {};
 
-agregarTarea();
-
+// agregarTarea();
 
 
 // IMPLEMENTACIÓN PARA HACER EL DRAG AND DROP
 
-// document.addEventListener("DOMContentLoaded", (event) => {
-function handleDragStart() {
-  // this.style.opacity = "0.4";
 
-  dragSrcEl = this;
+const lista1 = document.querySelector('#lista1');
+const lista2 = document.querySelector('#lista2');
 
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/html', this.innerHTML);
-}
-
-function handleDragEnd() {
-  // this.style.opacity = "1";
-
-  items.forEach(function (item) {
-    item.classList.remove("over");
-  });
-}
-
-function handleDragOver(e) {
-  if (e.preventDefault) {
-    e.preventDefault();
-  }
-
-  return false;
-}
-
-function handleDragEnter() {
-  this.classList.add("over");
-}
-
-function handleDragLeave() {
-  this.classList.remove("over");
-}
-
-function handleDrop(e) {
-  e.stopPropagation(); // stops the browser from redirecting.
-  
-  if (dragSrcEl !== this) {
-    dragSrcEl.innerHTML = this.innerHTML;
-    this.innerHTML = e.dataTransfer.getData('text/html');
-  }
-
-  return false;
-}
-
-let items = document.querySelectorAll(".dragCard");
-items.forEach(function (item) {
-  // item.addEventListener("dragstart", handleDragStart);
-  item.addEventListener("dragover", handleDragOver);
-  item.addEventListener("dragenter", handleDragEnter);
-  item.addEventListener("dragleave", handleDragLeave);
-  item.addEventListener("dragend", handleDragEnd);
-  item.addEventListener("drop", handleDrop);
+new Sortable(lista1, {
+  group: 'shared', // set both lists to same group
+  animation: 150,
+  chosenClass: "seleccionado",
 });
-// });
+
+new Sortable(lista2, {
+  group: 'shared',
+  animation: 150,
+  chosenClass: "seleccionado",
+});

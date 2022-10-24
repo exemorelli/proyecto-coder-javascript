@@ -8,7 +8,7 @@
 
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous"> -->
-        <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <!-- BOOTSTRAP 5 BOOTSWATCH LUX THEME -->
     <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
     <title>Proyecto Coderhouse - Curso JavaScript</title>
@@ -21,14 +21,46 @@
         </div>
     </nav>
 
-    <div id="mainContainer" class="container">
+    <main id="mainContainer" class="kanban">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary m-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <!-- <button type="button" class="btn btn-primary m-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Agregar elemento
-        </button>
+        </button> -->
+
+        <section class="kanban__lista">
+            <h2>Titulo 1</h2>
+            <div id="lista1" class="kanban__lista__container">
+                <div class="kanban__lista__container__card">
+                    <p>Card 1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                </div>
+                <div class="kanban__lista__container__card">
+                    <p>Card 2.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                </div>
+                <div class="kanban__lista__container__card">
+                    <p>Card 3.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                </div>
+            </div>
+            <button class="kanban__lista__btn">Agregar</button>
+        </section>
+
+        <section class="kanban__lista">
+            <h2>Titulo 2</h2>
+            <div id="lista2" class="kanban__lista__container">
+                <div class="kanban__lista__container__card">
+                    <p>Card 4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                </div>
+                <div class="kanban__lista__container__card">
+                    <p>Card 5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                </div>
+                <div class="kanban__lista__container__card">
+                    <p>Card 6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                </div>
+            </div>
+            <button class="kanban__lista__btn">Agregar</button>
+        </>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -48,13 +80,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <section id="listaTareas">
         </section>
 
-    </div>
 
 
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
