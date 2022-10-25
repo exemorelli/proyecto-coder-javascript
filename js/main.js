@@ -113,8 +113,7 @@ const agregarTarea = () => {
 
 // agregarTarea();
 
-// IMPLEMENTACIÓN PARA HACER EL DRAG AND DROP
-
+// IMPLEMENTACIÓN PARA HACER EL DRAG AND DROP CON SORTABLE JS
 const lista1 = document.querySelector("#lista1");
 const lista2 = document.querySelector("#lista2");
 
@@ -128,12 +127,13 @@ new Sortable(lista1, {
 
   store: {
     set: (e) => {
-      const orden = e.toArray();
-      console.log(orden);
-      localStorage.setItem("orden-lista1", JSON.stringify(orden));
+      const orden1 = e.toArray();
+      console.log(orden1);
+      localStorage.setItem("orden-lista1", JSON.stringify(orden1));
     },
     get: (e) => {
-      localStorage.getItem("orden-lista1");
+      const orden1 = JSON.parse(localStorage.getItem("orden-lista1"));
+      return orden1 ? orden1 : [];
     },
   },
 });
@@ -147,66 +147,61 @@ new Sortable(lista2, {
   },
   store: {
     set: (e) => {
-      const orden = e.toArray();
-      console.log(orden);
-      localStorage.setItem("orden-lista2", JSON.stringify(orden));
+      const orden2 = e.toArray();
+      console.log(orden2);
+      localStorage.setItem("orden-lista2", JSON.stringify(orden2));
     },
     get: (e) => {
-      localStorage.getItem("orden-lista2");
+      const orden2 = JSON.parse(localStorage.getItem("orden-lista2"));
+      return orden2 ? orden2 : [];
     },
   },
 });
 
-let btnNewCard = document.querySelector("#addCard-lista1");
+/* let btnNewCard = document.querySelector("#addCard-lista1");
 
-const addCard = (list) => {};
+const addCard = (list) => {}; */
 
-let textarea = document.querySelectorAll(".eventoArea");
-let h3 = document.querySelectorAll(".eventoH3");
-
-console.log(h3);
-
-h3.forEach((e) => {
-  e.onclick = () => {
-    editCard(e);
-  };
-});
-
-const editCard = (e) => {
-  // console.log(e.innerHTML);
+// FUNCION PARA COMENZAR EDICION DE UNA CARD CON TEXTAREA
+const focusCard = (e) => {
   e.classList.add("oculto");
   e.nextElementSibling.classList.remove("oculto");
   e.nextElementSibling.focus();
 };
 
-textarea.forEach((e) => {
-  e.onkeydown = (event) => {
-    if (event.keyCode === 13 || event.keyCode === 27) {
-      closeEdit(e, event);
-    }
-  };
-  e.onblur = (event) => {
-    closeEdit(e, event);
-    console.log("HOLA");
+
+// FUNCION PARA TERMINAR EDICION DE CARD LEYENDO TECLAS 'ESC', 'ENTER' Y CLICK AFUERA
+const finishEdit = (textarea) => {
+  textarea.forEach((e) => {
+    e.onkeydown = (event) => {
+      if (event.keyCode === 13 || event.keyCode === 27) {
+        saveEdit(e, event);
+      }
+    };
+    e.onblur = (event) => {
+      saveEdit(e, event);
+      // console.log("HOLA");
+    };
+  });
+}
+
+// FUNCION PARA GUARDAR CAMBIOS DEL CARD
+const saveEdit = (actual, event) => {
+  let anterior = actual.previousElementSibling;
+  anterior.innerHTML = event.target.value;
+  anterior.classList.remove("oculto");
+  actual.classList.add("oculto");
+};
+
+
+// CODIGO PRINCIPAL
+let textarea = document.querySelectorAll(".eventoArea");
+let contenidoCard = document.querySelectorAll(".eventoCard");
+
+contenidoCard.forEach((e) => {
+  e.onclick = () => {
+    focusCard(e);
   };
 });
 
-
-
-
-const closeEdit = (e, event) => {
-    let hola = e.previousElementSibling;
-    hola.innerHTML = event.target.value;
-    hola.classList.remove("oculto");
-    e.classList.add("oculto");
-};
-
-/* let bodyClick = document.querySelector("#mainContainer");
-console.log(bodyClick);
-
-
-let elClick;
-bodyClick.onclick = () => {
-  elClick = -1;
-  console.log(elClick);
-} */
+finishEdit(textarea);
