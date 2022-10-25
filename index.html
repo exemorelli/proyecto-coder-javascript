@@ -30,34 +30,38 @@
         <section class="kanban__lista">
             <h2>Titulo 1</h2>
             <div id="lista1" class="kanban__lista__container">
-                <div class="kanban__lista__container__card">
+                <div class="kanban__lista__container__card" data-id="card-1">
                     <p>Card 1. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
                 </div>
-                <div class="kanban__lista__container__card">
+                <div class="kanban__lista__container__card" data-id="card-2">
                     <p>Card 2.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
                 </div>
-                <div class="kanban__lista__container__card">
+                <div class="kanban__lista__container__card" data-id="card-3">
                     <p>Card 3.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
                 </div>
             </div>
-            <button class="kanban__lista__btn">Agregar</button>
+            <button id="addCard-lista1" class="kanban__lista__btn">Agregar</button>
         </section>
 
         <section class="kanban__lista">
             <h2>Titulo 2</h2>
             <div id="lista2" class="kanban__lista__container">
-                <div class="kanban__lista__container__card">
-                    <p>Card 4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                <div class="kanban__lista__container__card" data-id="card-4">
+                    <h3 class="eventoH3">Card 4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</h3>
+                    <textarea
+                        class="eventoArea oculto">Card 4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</textarea>
                 </div>
-                <div class="kanban__lista__container__card">
-                    <p>Card 5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
+                <div class="kanban__lista__container__card" data-id="card-5">
+                    <h3 class="eventoH3">Card 5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</h3>
+                    <textarea
+                        class="eventoArea oculto">Card 5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</textarea>
                 </div>
-                <div class="kanban__lista__container__card">
+                <div class="kanban__lista__container__card" data-id="card-6">
                     <p>Card 6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, a.</p>
                 </div>
             </div>
-            <button class="kanban__lista__btn">Agregar</button>
-        </>
+            <button id="addCard-lista2" class="kanban__lista__btn">Agregar</button>
+        </section>
 
         <!-- Modal -->
         <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">

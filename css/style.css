@@ -27,3 +27,16 @@
 
 .seleccionado {
   transform: scale(1.02) rotate(1deg); }
+
+textarea {
+  border: none;
+  resize: none !important;
+  width: 100%;
+  height: 100% !important;
+  background-color: transparent; }
+
+textarea:focus {
+  background-color: aliceblue; }
+
+.oculto {
+  display: none; }

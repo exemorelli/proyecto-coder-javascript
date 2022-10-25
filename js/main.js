@@ -111,24 +111,102 @@ const agregarTarea = () => {
   cancelarInput();
 };
 
-
 // agregarTarea();
-
 
 // IMPLEMENTACIÓN PARA HACER EL DRAG AND DROP
 
-
-const lista1 = document.querySelector('#lista1');
-const lista2 = document.querySelector('#lista2');
+const lista1 = document.querySelector("#lista1");
+const lista2 = document.querySelector("#lista2");
 
 new Sortable(lista1, {
-  group: 'shared', // set both lists to same group
+  group: "draggableCard", // set both lists to same group
   animation: 150,
   chosenClass: "seleccionado",
+  onEnd: () => {
+    console.log("Se movió un elemento de la lista 1");
+  },
+
+  store: {
+    set: (e) => {
+      const orden = e.toArray();
+      console.log(orden);
+      localStorage.setItem("orden-lista1", JSON.stringify(orden));
+    },
+    get: (e) => {
+      localStorage.getItem("orden-lista1");
+    },
+  },
 });
 
 new Sortable(lista2, {
-  group: 'shared',
+  group: "draggableCard",
   animation: 150,
   chosenClass: "seleccionado",
+  onEnd: () => {
+    console.log("Se movió un elemento de la lista 2");
+  },
+  store: {
+    set: (e) => {
+      const orden = e.toArray();
+      console.log(orden);
+      localStorage.setItem("orden-lista2", JSON.stringify(orden));
+    },
+    get: (e) => {
+      localStorage.getItem("orden-lista2");
+    },
+  },
 });
+
+let btnNewCard = document.querySelector("#addCard-lista1");
+
+const addCard = (list) => {};
+
+let textarea = document.querySelectorAll(".eventoArea");
+let h3 = document.querySelectorAll(".eventoH3");
+
+console.log(h3);
+
+h3.forEach((e) => {
+  e.onclick = () => {
+    editCard(e);
+  };
+});
+
+const editCard = (e) => {
+  // console.log(e.innerHTML);
+  e.classList.add("oculto");
+  e.nextElementSibling.classList.remove("oculto");
+  e.nextElementSibling.focus();
+};
+
+textarea.forEach((e) => {
+  e.onkeydown = (event) => {
+    if (event.keyCode === 13 || event.keyCode === 27) {
+      closeEdit(e, event);
+    }
+  };
+  e.onblur = (event) => {
+    closeEdit(e, event);
+    console.log("HOLA");
+  };
+});
+
+
+
+
+const closeEdit = (e, event) => {
+    let hola = e.previousElementSibling;
+    hola.innerHTML = event.target.value;
+    hola.classList.remove("oculto");
+    e.classList.add("oculto");
+};
+
+/* let bodyClick = document.querySelector("#mainContainer");
+console.log(bodyClick);
+
+
+let elClick;
+bodyClick.onclick = () => {
+  elClick = -1;
+  console.log(elClick);
+} */
