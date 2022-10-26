@@ -117,6 +117,8 @@ const addCard = (array) => {
     e.onclick = () => {
       const padreCard = e.previousElementSibling;
       console.log(padreCard);
+
+      // OBTENER data-id="card-${i}" Y CONTENIDO CARDS CON LOCALSTORAGE (PENDIENTE)
       padreCard.innerHTML += `
                 <div class="kanban__lista__container__card" data-id="card-${i}">
                     <h4 class="eventoCard">Hola</h4>
