@@ -91,10 +91,6 @@ const saveEdit = (actual, event) => {
   actual.classList.add("oculto");
 };
 
-// CODIGO PRINCIPAL
-let textarea = document.querySelectorAll(".eventoArea");
-let contenidoCard = document.querySelectorAll(".eventoCard");
-
 const editCard = (contenidoCard) => {
   contenidoCard.forEach((e) => {
     e.onclick = () => {
@@ -103,30 +99,48 @@ const editCard = (contenidoCard) => {
   });
 };
 
-editCard(contenidoCard);
-finishEdit(textarea);
-
-// localStorage.setItem("lista","")
-
-let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
-
 const addCard = (array) => {
   // let cantCards = localStorage.getItem("lista")
   // data-id="card-1"
   array.forEach((e, i) => {
     e.onclick = () => {
       const padreCard = e.previousElementSibling;
-      console.log(padreCard);
 
       // OBTENER data-id="card-${i}" Y CONTENIDO CARDS CON LOCALSTORAGE (PENDIENTE)
       padreCard.innerHTML += `
-                <div class="kanban__lista__container__card" data-id="card-${i}">
-                    <h4 class="eventoCard">Hola</h4>
-                    <textarea class="eventoArea oculto">Hola</textarea>
-                </div>
+      <div class="kanban__lista__container__card" data-id="card-${i}">
+          <h4 class="eventoCard">Hola</h4>
+          <textarea class="eventoArea oculto">Hola</textarea>
+      </div>
       `;
+
+      // RECORRER padre.Card PARA ENCONTRAR EL H4 Y LLAMAR LA FUNCIÓN focusCard
+
+      
+      // console.log(padreCard);
+      // console.log(padreCard.lastChild.innerHTML);
+      cards();
     };
   });
 };
 
+const cards = () => {
+  let contenidoCard = document.querySelectorAll(".eventoCard");
+  let textarea = document.querySelectorAll(".eventoArea");
+  editCard(contenidoCard);
+  finishEdit(textarea);
+}
+
+// CODIGO PRINCIPAL
+
+// localStorage.setItem("lista","")
+
+let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
+
+
 addCard(btnNewCard);
+
+cards();
+// editCard(contenidoCard);
+// finishEdit(textarea);
+// console.log(contenidoCard);
