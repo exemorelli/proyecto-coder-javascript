@@ -11,16 +11,18 @@ new Sortable(lista1, {
     console.log("Se movió un elemento de la lista 1");
   },
 
-  /* store: {
+  store: {
     set: (sortable) => {
       const orden1 = sortable.toArray();
-      localStorage.setItem("orden-lista-1", orden1.join("|"));
+      localStorage.setItem("lista-1", JSON.stringify(orden1));
     },
+    /*
     get: () => {
-      const orden1 = localStorage.getItem("orden-lista-1");
-      return orden1 ? orden1.split("|") : [];
+      const orden1 = localStorage.getItem("lista-1");
+      return orden1 ? JSON.parse(orden1) : [];
     },
-  }, */
+     */
+  },
 });
 
 new Sortable(lista2, {
@@ -30,16 +32,20 @@ new Sortable(lista2, {
   onEnd: () => {
     console.log("Se movió un elemento de la lista 2");
   },
-  /* store: {
+
+  store: {
     set: (sortable) => {
       const orden2 = sortable.toArray();
-      localStorage.setItem("orden-lista-2", orden2.join("|"));
+      localStorage.setItem("lista-2", JSON.stringify(orden2));
     },
+    /* 
     get: () => {
-      const orden2 = localStorage.getItem("orden-lista-2");
-      return orden2 ? orden2.split("|") : [];
+      const orden2 = localStorage.getItem("lista-2");
+      return orden2 ? JSON.parse(orden2) : [];
+      // return orden2 ? orden2.split("|") : [];
     },
-  }, */
+     */
+  },
 });
 
 new Sortable(lista3, {
@@ -49,16 +55,18 @@ new Sortable(lista3, {
   onEnd: () => {
     console.log("Se movió un elemento de la lista 2");
   },
-  /* store: {
+  store: {
     set: (sortable) => {
       const orden3 = sortable.toArray();
-      localStorage.setItem("orden-lista-3", orden3.join("|"));
+      localStorage.setItem("lista-3", JSON.stringify(orden3));
     },
+    /* 
     get: () => {
-      const orden3 = localStorage.getItem("orden-lista-3");
-      return orden3 ? orden3.split("|") : [];
+      const orden3 = localStorage.getItem("lista-3");
+      return orden3 ? JSON.parse(orden3) : [];
     },
-  }, */
+    */
+  },
 });
 
 // FUNCION PARA COMENZAR EDICION DE UNA CARD CON TEXTAREA
@@ -91,6 +99,7 @@ const saveEdit = (actual, event) => {
   actual.classList.add("oculto");
 };
 
+// FUNCION ONCLICK CARD
 const editCard = (contenidoCard) => {
   contenidoCard.forEach((e) => {
     e.onclick = () => {
@@ -99,48 +108,68 @@ const editCard = (contenidoCard) => {
   });
 };
 
+// FUNCION DIBUJAR CARD
 const addCard = (array) => {
-  // let cantCards = localStorage.getItem("lista")
-  // data-id="card-1"
-  array.forEach((e, i) => {
+  array.forEach((e) => {
     e.onclick = () => {
+      getID();
       const padreCard = e.previousElementSibling;
-
-      // OBTENER data-id="card-${i}" Y CONTENIDO CARDS CON LOCALSTORAGE (PENDIENTE)
       padreCard.innerHTML += `
-      <div class="kanban__lista__container__card" data-id="card-${i}">
-          <h4 class="eventoCard">Hola</h4>
-          <textarea class="eventoArea oculto">Hola</textarea>
+      <div class="kanban__lista__container__card" data-id="card-${nextID}">
+          <h4 class="eventoCard">Haz click aquí para editar</h4>
+          <textarea class="eventoArea oculto"></textarea>
       </div>
       `;
 
       // RECORRER padre.Card PARA ENCONTRAR EL H4 Y LLAMAR LA FUNCIÓN focusCard
 
-      
       // console.log(padreCard);
       // console.log(padreCard.lastChild.innerHTML);
       cards();
+      upID();
     };
   });
 };
 
+// FUNCION PARA INTERACTUAR CON LOS CARDS
 const cards = () => {
   let contenidoCard = document.querySelectorAll(".eventoCard");
   let textarea = document.querySelectorAll(".eventoArea");
   editCard(contenidoCard);
   finishEdit(textarea);
-}
+};
+
+// FUNCION PARA LEER SI EXISTE DATA-ID GUARDADO EN LOCALSTORAGE AL CARGAR LA PAG.
+const checkID = () => {
+  if (!localStorage.getItem("next-id")) {
+    nextID = 1;
+    localStorage.setItem("next-id", JSON.stringify(nextID));
+    console.log("no existía");
+  } else {
+    console.log("ya existe");
+  }
+};
+
+// FUNCION PARA OBTENER DATA-ID EN LOCALSTORAGE
+const getID = () => {
+  nextID = JSON.parse(localStorage.getItem("next-id"));
+};
+
+// FUNCION PARA AUMENTAR EL DATA-ID EN LOCALSTORAGE +1
+const upID = () => {
+  nextID++;
+  localStorage.setItem("next-id", JSON.stringify(nextID));
+  console.log(nextID);
+};
 
 // CODIGO PRINCIPAL
 
-// localStorage.setItem("lista","")
+let nextID; // valor a asignar en el data-id de la prox. card
 
 let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
 
 
+checkID();
 addCard(btnNewCard);
 
 cards();
-// editCard(contenidoCard);
-// finishEdit(textarea);
-// console.log(contenidoCard);
