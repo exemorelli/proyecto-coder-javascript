@@ -4,9 +4,9 @@ const lista2 = document.querySelector("#lista2");
 const lista3 = document.querySelector("#lista3");
 
 class Tarea {
-  constructor(texto, name) {
+  constructor(nombre, texto) {
+    this.nombre = nombre;
     this.texto = texto;
-    this.name = name;
   }
 }
 
@@ -21,7 +21,7 @@ new Sortable(lista1, {
   store: {
     set: (sortable) => {
       const orden1 = sortable.toArray();
-      localStorage.setItem("lista-1", JSON.stringify(orden1));
+      localStorage.setItem("lista1", JSON.stringify(orden1));
     },
     /*
     get: () => {
@@ -43,7 +43,7 @@ new Sortable(lista2, {
   store: {
     set: (sortable) => {
       const orden2 = sortable.toArray();
-      localStorage.setItem("lista-2", JSON.stringify(orden2));
+      localStorage.setItem("lista2", JSON.stringify(orden2));
     },
     /* 
     get: () => {
@@ -65,7 +65,7 @@ new Sortable(lista3, {
   store: {
     set: (sortable) => {
       const orden3 = sortable.toArray();
-      localStorage.setItem("lista-3", JSON.stringify(orden3));
+      localStorage.setItem("lista3", JSON.stringify(orden3));
     },
     /* 
     get: () => {
@@ -111,6 +111,22 @@ const saveEdit = (actual, event) => {
   anterior.innerHTML = event.target.value;
   anterior.classList.remove("oculto");
   actual.classList.add("oculto");
+
+  // GUARDO DATOS DE LOS CARDS
+  checkStorage();
+  let cardsArray = JSON.parse(localStorage.getItem("cards"));
+  cardsArray.push(
+    new Tarea(actual.parentNode.getAttribute("data-id"), anterior.innerHTML)
+  );
+  localStorage.setItem("cards", JSON.stringify(cardsArray));
+
+  // GUARDO LAS LISTAS DE CARDS
+  let lista = actual.parentNode.parentNode.getAttribute("id");
+  console.log(lista);
+  checkList(lista);
+  let listaArray = JSON.parse(localStorage.getItem(lista));
+  listaArray.push(actual.parentNode.getAttribute("data-id"));
+  localStorage.setItem(lista, JSON.stringify(listaArray));
 };
 
 // FUNCION ONCLICK CARD
@@ -176,7 +192,6 @@ const getID = () => {
 const upID = () => {
   nextID++;
   localStorage.setItem("next-id", JSON.stringify(nextID));
-  console.log(nextID);
 };
 
 // FUNCION PARA REDUCIR EL DATA-ID EN LOCALSTORAGE -1
@@ -186,10 +201,19 @@ const downID = () => {
   console.log(nextID);
 };
 
+// FUNCION PARA INICIALIZAR ARRAY DE CARDS EN LS
 const checkStorage = () => {
   if (!localStorage.getItem("cards")) {
     cardsArray = [];
     localStorage.setItem("cards", JSON.stringify(cardsArray));
+  }
+};
+
+// FUNCION PARA INICIALIZAR ARRAY DE LISTAS EN LS
+const checkList = (lista) => {
+  if (!localStorage.getItem(`${lista}`)) {
+    listaArray = [];
+    localStorage.setItem(lista, JSON.stringify(listaArray));
   }
 };
 
@@ -199,9 +223,7 @@ let nextID; // valor a asignar en el data-id de la prox. card
 
 // let mainContainer = document.querySelector("#mainContainer");
 let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
-let cardsArray = [];
 
-// checkID();
 addCard(btnNewCard);
 
 cards();
