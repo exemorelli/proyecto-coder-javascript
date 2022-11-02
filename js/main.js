@@ -23,12 +23,6 @@ new Sortable(lista1, {
       const orden1 = sortable.toArray();
       localStorage.setItem("lista1", JSON.stringify(orden1));
     },
-    /*
-    get: () => {
-      const orden1 = localStorage.getItem("lista-1");
-      return orden1 ? JSON.parse(orden1) : [];
-    },
-     */
   },
 });
 
@@ -45,13 +39,6 @@ new Sortable(lista2, {
       const orden2 = sortable.toArray();
       localStorage.setItem("lista2", JSON.stringify(orden2));
     },
-    /* 
-    get: () => {
-      const orden2 = localStorage.getItem("lista-2");
-      return orden2 ? JSON.parse(orden2) : [];
-      // return orden2 ? orden2.split("|") : [];
-    },
-     */
   },
 });
 
@@ -67,12 +54,6 @@ new Sortable(lista3, {
       const orden3 = sortable.toArray();
       localStorage.setItem("lista3", JSON.stringify(orden3));
     },
-    /* 
-    get: () => {
-      const orden3 = localStorage.getItem("lista-3");
-      return orden3 ? JSON.parse(orden3) : [];
-    },
-    */
   },
 });
 
@@ -99,8 +80,6 @@ const finishEdit = (textarea) => {
         e.parentNode.remove();
         downID();
       }
-      /*
-       */
     };
   });
 };
@@ -115,18 +94,27 @@ const saveEdit = (actual, event) => {
   // GUARDO DATOS DE LOS CARDS
   checkStorage();
   let cardsArray = JSON.parse(localStorage.getItem("cards"));
-  cardsArray.push(
-    new Tarea(actual.parentNode.getAttribute("data-id"), anterior.innerHTML)
+  let encontrado = cardsArray.find(
+    (e) => e.nombre === actual.parentNode.getAttribute("data-id")
   );
-  localStorage.setItem("cards", JSON.stringify(cardsArray));
 
-  // GUARDO LAS LISTAS DE CARDS
-  let lista = actual.parentNode.parentNode.getAttribute("id");
-  console.log(lista);
-  checkList(lista);
-  let listaArray = JSON.parse(localStorage.getItem(lista));
-  listaArray.push(actual.parentNode.getAttribute("data-id"));
-  localStorage.setItem(lista, JSON.stringify(listaArray));
+  // CONDICIONAL PARA EVITAR GUARDADO DUPLICADO EN EL LOCAL STORAGE
+  if (!encontrado) {
+    cardsArray.push(
+      new Tarea(actual.parentNode.getAttribute("data-id"), anterior.innerHTML)
+    );
+    localStorage.setItem("cards", JSON.stringify(cardsArray));
+
+    // GUARDO LAS LISTAS DE CARDS
+    let lista = actual.parentNode.parentNode.getAttribute("id");
+    checkList(lista);
+    let listaArray = JSON.parse(localStorage.getItem(lista));
+    listaArray.push(actual.parentNode.getAttribute("data-id"));
+    localStorage.setItem(lista, JSON.stringify(listaArray));
+  } else {
+    // console.log(cardsArray);
+    // cardsArray
+  }
 };
 
 // FUNCION ONCLICK CARD
@@ -139,8 +127,8 @@ const editCard = (contenidoCard) => {
 };
 
 // FUNCION DIBUJAR CARD
-const addCard = (array) => {
-  array.forEach((e) => {
+const addCard = (arrayBtn) => {
+  arrayBtn.forEach((e) => {
     e.onclick = () => {
       checkID();
       getID();
@@ -152,19 +140,41 @@ const addCard = (array) => {
       </div>
       `;
       let tarjeta = padreCard.querySelector(`[data-id=card-${nextID}]`);
-      // console.log(tarjeta.firstElementChild);
       focusCard(tarjeta.firstElementChild);
-
-      /* cardsArray.push(new Tarea(anterior.innerHTML, actual.parentNode.getAttribute("data-id")))
-      console.log(cardsArray); */
-      // RECORRER padre.Card PARA ENCONTRAR EL H4 Y LLAMAR LA FUNCIÓN focusCard
-
-      // console.log(padreCard);
-      // console.log(padreCard.lastChild.innerHTML);
       cards();
       upID();
     };
   });
+};
+
+// DIBUJAR CARDS EN LOCAL STORAGE
+const drawOnLoad = (columna1, columna2, columna3) => {
+  let lista1 = JSON.parse(localStorage.getItem("lista1"));
+  let lista2 = JSON.parse(localStorage.getItem("lista2"));
+  let lista3 = JSON.parse(localStorage.getItem("lista3"));
+  let cards = JSON.parse(localStorage.getItem("cards"));
+  checkStorage();
+  checkList("lista1");
+  checkList("lista2");
+  checkList("lista3");
+
+  drawList(columna1, lista1, cards);
+  drawList(columna2, lista2, cards);
+  drawList(columna3, lista3, cards);
+};
+
+// DIBUJAR CARDS DE CADA LISTA
+const drawList = (columnaID, listaLS, cardsLS) => {
+  for (const lista of listaLS) {
+    const card = cardsLS.find((e) => e.nombre === lista);
+    columnaID.innerHTML += `
+    <div class="kanban__lista__container__card" data-id="${card.nombre}">
+        <h4 class="eventoCard">${card.texto}</h4>
+        <textarea class="eventoArea oculto">${card.texto}</textarea>
+    </div>
+    `;
+    cards();
+  }
 };
 
 // FUNCION PARA INTERACTUAR CON LOS CARDS
@@ -198,7 +208,6 @@ const upID = () => {
 const downID = () => {
   nextID--;
   localStorage.setItem("next-id", JSON.stringify(nextID));
-  console.log(nextID);
 };
 
 // FUNCION PARA INICIALIZAR ARRAY DE CARDS EN LS
@@ -226,4 +235,4 @@ let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
 
 addCard(btnNewCard);
 
-cards();
+drawOnLoad(lista1, lista2, lista3);
