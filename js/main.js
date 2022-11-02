@@ -111,10 +111,7 @@ const saveEdit = (actual, event) => {
     let listaArray = JSON.parse(localStorage.getItem(lista));
     listaArray.push(actual.parentNode.getAttribute("data-id"));
     localStorage.setItem(lista, JSON.stringify(listaArray));
-  } /* else {
-    // console.log(cardsArray);
-    // cardsArray
-  } */
+  }
 };
 
 // FUNCION ONCLICK CARD
@@ -155,15 +152,12 @@ const drawOnLoad = (columna1, columna2, columna3) => {
   let cards = JSON.parse(localStorage.getItem("cards"));
 
   if (list1 !== null) {
-    console.log(list1);
     drawList(columna1, list1, cards);
   }
   if (list2 !== null) {
-    console.log(list2);
     drawList(columna2, list2, cards);
   }
   if (list3 !== null) {
-    console.log(list3);
     drawList(columna3, list3, cards);
   }
 };
