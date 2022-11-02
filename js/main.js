@@ -149,18 +149,26 @@ const addCard = (arrayBtn) => {
 
 // DIBUJAR CARDS EN LOCAL STORAGE
 const drawOnLoad = (columna1, columna2, columna3) => {
-  let lista1 = JSON.parse(localStorage.getItem("lista1"));
-  let lista2 = JSON.parse(localStorage.getItem("lista2"));
-  let lista3 = JSON.parse(localStorage.getItem("lista3"));
+  let list1 = JSON.parse(localStorage.getItem("lista1"));
+  let list2 = JSON.parse(localStorage.getItem("lista2"));
+  let list3 = JSON.parse(localStorage.getItem("lista3"));
   let cards = JSON.parse(localStorage.getItem("cards"));
-  checkStorage();
-  checkList("lista1");
-  checkList("lista2");
-  checkList("lista3");
 
-  drawList(columna1, lista1, cards);
-  drawList(columna2, lista2, cards);
-  drawList(columna3, lista3, cards);
+  if (list1 !== null) {
+    // console.log(list1);
+    drawList(columna1, list1, cards);
+  }
+  if (list2 !== null) {
+    // console.log(list2);
+    drawList(columna2, list2, cards);
+  }
+  if (list3 !== null) {
+    // console.log(list3);
+    drawList(columna3, list3, cards);
+  }
+  // drawList(columna1, lista1, cards);
+  // drawList(columna2, lista2, cards);
+  // drawList(columna3, lista3, cards);
 };
 
 // DIBUJAR CARDS DE CADA LISTA
@@ -232,6 +240,13 @@ let nextID; // valor a asignar en el data-id de la prox. card
 
 // let mainContainer = document.querySelector("#mainContainer");
 let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
+// checkStorage();
+// checkList();
+
+checkStorage();
+checkList("lista1");
+checkList("lista2");
+checkList("lista3");
 
 addCard(btnNewCard);
 
