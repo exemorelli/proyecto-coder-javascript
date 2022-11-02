@@ -3,6 +3,13 @@ const lista1 = document.querySelector("#lista1");
 const lista2 = document.querySelector("#lista2");
 const lista3 = document.querySelector("#lista3");
 
+class Tarea {
+  constructor(texto, name) {
+    this.texto = texto;
+    this.name = name;
+  }
+}
+
 new Sortable(lista1, {
   group: "draggableCard", // set both lists to same group
   animation: 150,
@@ -81,12 +88,19 @@ const finishEdit = (textarea) => {
   textarea.forEach((e) => {
     e.onkeydown = (event) => {
       if (event.keyCode === 13 || event.keyCode === 27) {
-        saveEdit(e, event);
+        e.blur();
       }
     };
     e.onblur = (event) => {
-      saveEdit(e, event);
-      // console.log("HOLA");
+      // event.target.value !== "" ? saveEdit(e, event) : e.parentNode.remove();
+      if (event.target.value !== "") {
+        saveEdit(e, event);
+      } else {
+        e.parentNode.remove();
+        downID();
+      }
+      /*
+       */
     };
   });
 };
@@ -112,15 +126,21 @@ const editCard = (contenidoCard) => {
 const addCard = (array) => {
   array.forEach((e) => {
     e.onclick = () => {
+      checkID();
       getID();
       const padreCard = e.previousElementSibling;
       padreCard.innerHTML += `
       <div class="kanban__lista__container__card" data-id="card-${nextID}">
-          <h4 class="eventoCard">Haz click aquí para editar</h4>
+          <h4 class="eventoCard"></h4>
           <textarea class="eventoArea oculto"></textarea>
       </div>
       `;
+      let tarjeta = padreCard.querySelector(`[data-id=card-${nextID}]`);
+      // console.log(tarjeta.firstElementChild);
+      focusCard(tarjeta.firstElementChild);
 
+      /* cardsArray.push(new Tarea(anterior.innerHTML, actual.parentNode.getAttribute("data-id")))
+      console.log(cardsArray); */
       // RECORRER padre.Card PARA ENCONTRAR EL H4 Y LLAMAR LA FUNCIÓN focusCard
 
       // console.log(padreCard);
@@ -144,9 +164,6 @@ const checkID = () => {
   if (!localStorage.getItem("next-id")) {
     nextID = 1;
     localStorage.setItem("next-id", JSON.stringify(nextID));
-    console.log("no existía");
-  } else {
-    console.log("ya existe");
   }
 };
 
@@ -162,14 +179,29 @@ const upID = () => {
   console.log(nextID);
 };
 
+// FUNCION PARA REDUCIR EL DATA-ID EN LOCALSTORAGE -1
+const downID = () => {
+  nextID--;
+  localStorage.setItem("next-id", JSON.stringify(nextID));
+  console.log(nextID);
+};
+
+const checkStorage = () => {
+  if (!localStorage.getItem("cards")) {
+    cardsArray = [];
+    localStorage.setItem("cards", JSON.stringify(cardsArray));
+  }
+};
+
 // CODIGO PRINCIPAL
 
 let nextID; // valor a asignar en el data-id de la prox. card
 
+// let mainContainer = document.querySelector("#mainContainer");
 let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
+let cardsArray = [];
 
-
-checkID();
+// checkID();
 addCard(btnNewCard);
 
 cards();
