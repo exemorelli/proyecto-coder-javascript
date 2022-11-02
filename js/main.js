@@ -61,6 +61,7 @@ new Sortable(lista3, {
 const focusCard = (e) => {
   e.classList.add("oculto");
   e.nextElementSibling.classList.remove("oculto");
+  e.nextElementSibling.value = e.innerHTML;
   e.nextElementSibling.focus();
 };
 
@@ -92,7 +93,6 @@ const saveEdit = (actual, event) => {
   actual.classList.add("oculto");
 
   // GUARDO DATOS DE LOS CARDS
-  checkStorage();
   let cardsArray = JSON.parse(localStorage.getItem("cards"));
   let encontrado = cardsArray.find(
     (e) => e.nombre === actual.parentNode.getAttribute("data-id")
@@ -107,14 +107,14 @@ const saveEdit = (actual, event) => {
 
     // GUARDO LAS LISTAS DE CARDS
     let lista = actual.parentNode.parentNode.getAttribute("id");
-    checkList(lista);
+    // checkList(lista);
     let listaArray = JSON.parse(localStorage.getItem(lista));
     listaArray.push(actual.parentNode.getAttribute("data-id"));
     localStorage.setItem(lista, JSON.stringify(listaArray));
-  } else {
+  } /* else {
     // console.log(cardsArray);
     // cardsArray
-  }
+  } */
 };
 
 // FUNCION ONCLICK CARD
@@ -155,20 +155,17 @@ const drawOnLoad = (columna1, columna2, columna3) => {
   let cards = JSON.parse(localStorage.getItem("cards"));
 
   if (list1 !== null) {
-    // console.log(list1);
+    console.log(list1);
     drawList(columna1, list1, cards);
   }
   if (list2 !== null) {
-    // console.log(list2);
+    console.log(list2);
     drawList(columna2, list2, cards);
   }
   if (list3 !== null) {
-    // console.log(list3);
+    console.log(list3);
     drawList(columna3, list3, cards);
   }
-  // drawList(columna1, lista1, cards);
-  // drawList(columna2, lista2, cards);
-  // drawList(columna3, lista3, cards);
 };
 
 // DIBUJAR CARDS DE CADA LISTA
@@ -240,8 +237,6 @@ let nextID; // valor a asignar en el data-id de la prox. card
 
 // let mainContainer = document.querySelector("#mainContainer");
 let btnNewCard = document.querySelectorAll(".kanban__lista__btn");
-// checkStorage();
-// checkList();
 
 checkStorage();
 checkList("lista1");
