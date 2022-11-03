@@ -100,6 +100,7 @@ const saveEdit = (actual, event) => {
 
   // CONDICIONAL PARA EVITAR GUARDADO DUPLICADO EN EL LOCAL STORAGE
   if (!encontrado) {
+    console.log(encontrado);
     cardsArray.push(
       new Tarea(actual.parentNode.getAttribute("data-id"), anterior.innerHTML)
     );
@@ -107,10 +108,12 @@ const saveEdit = (actual, event) => {
 
     // GUARDO LAS LISTAS DE CARDS
     let lista = actual.parentNode.parentNode.getAttribute("id");
-    // checkList(lista);
     let listaArray = JSON.parse(localStorage.getItem(lista));
     listaArray.push(actual.parentNode.getAttribute("data-id"));
     localStorage.setItem(lista, JSON.stringify(listaArray));
+  } else {
+    cardsArray[cardsArray.indexOf(encontrado)].texto = anterior.innerHTML;
+    localStorage.setItem("cards", JSON.stringify(cardsArray));
   }
 };
 
@@ -144,6 +147,14 @@ const addCard = (arrayBtn) => {
   });
 };
 
+// FUNCION PARA INTERACTUAR CON LOS CARDS
+const cards = () => {
+  let contenidoCard = document.querySelectorAll(".eventoCard");
+  let textarea = document.querySelectorAll(".eventoArea");
+  editCard(contenidoCard);
+  finishEdit(textarea);
+};
+
 // DIBUJAR CARDS EN LOCAL STORAGE
 const drawOnLoad = (columna1, columna2, columna3) => {
   let list1 = JSON.parse(localStorage.getItem("lista1"));
@@ -174,14 +185,6 @@ const drawList = (columnaID, listaLS, cardsLS) => {
     `;
     cards();
   }
-};
-
-// FUNCION PARA INTERACTUAR CON LOS CARDS
-const cards = () => {
-  let contenidoCard = document.querySelectorAll(".eventoCard");
-  let textarea = document.querySelectorAll(".eventoArea");
-  editCard(contenidoCard);
-  finishEdit(textarea);
 };
 
 // FUNCION PARA LEER SI EXISTE DATA-ID GUARDADO EN LOCALSTORAGE AL CARGAR LA PAG.
